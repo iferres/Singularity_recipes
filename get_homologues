@@ -1,0 +1,32 @@
+Bootstrap: library
+From: ubuntu:16.04
+
+
+# Install dependencies from repos: GD for graphics, libidn11 for BLAST+
+%post
+	export DEBIAN_FRONTEND=noninteractive
+	apt update && apt install -y software-properties-common
+	add-apt-repository ppa:anton+/photo-video-apps -y
+	apt-get update && apt-get install -y git htop curl make geeqie evince default-jre libgd-gd2-perl libidn11 libpython2.7 procps bc wget r-base r-base-dev
+	#curl -L http://cpanmin.us | perl - App::cpanminus
+	cpan -i App::cpanminus
+	export PERL_MM_USE_DEFAULT=1
+	cpanm -if Inline::C 
+	cpanm -if Inline::CPP@0.75
+	git clone https://github.com/eead-csic-compbio/get_homologues.git
+	cd get_homologues/
+	git checkout 37fe5738fe2f7911bd1979b9cebebf3bedee69c1
+	perl install.pl no_databases
+	chmod a+wr db/
+	cd ../
+
+%environment 
+	export PATH="/get_homologues:${PATH}"
+
+%runscript
+	#perl get_homologues/get_homologues.pl
+	get_homologues.pl
+	
+
+%labels
+	author Ignacio Ferres 
