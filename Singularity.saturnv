@@ -1,0 +1,31 @@
+Bootstrap: docker
+From: ubuntu:16.04
+
+%post 
+	apt update
+	apt install -y libparallel-forkmanager-perl libgraph-perl libgetopt-simple-perl parallel seqtk wget bzip2 git
+	wget https://repo.continuum.io/miniconda/Miniconda2-4.5.12-Linux-x86_64.sh -O /opt/miniconda.sh
+	bash /opt/miniconda.sh -b -p /opt/miniconda
+	export PATH="/opt/miniconda/bin:$PATH"
+	#install prokka
+	conda install --yes -c conda-forge -c bioconda prokka=1.13.4
+	#install last
+	conda install --yes -c bioconda last=963
+	#usearch ???
+	#files section
+	#saturnv
+	git clone https://github.com/ejfresch/saturnV.git
+	cd saturnV
+	git checkout 3d6245ad7686d3dee1d6d5356189fd2d28ea99b7
+	./install -d /usr/local -m core
+
+%files
+	./usearch8 /usr/local/bin
+
+%runscript
+	echo 'This container uses propietary software (usearch). Do not distribute.'
+	echo 
+	satv_launch "$@"
+	
+%labels 
+	author Ignacio Ferres
