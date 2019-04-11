@@ -17,5 +17,5 @@ From: ubuntu:16.04
 %environment
         export PATH="/opt/miniconda/bin:$PATH"
 
-%lables
+%labels
 	author Ignacio Ferres
