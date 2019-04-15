@@ -1,0 +1,13 @@
+Bootstrap: docker
+From: ubuntu:16.04
+
+%post
+	apt update
+	apt upgrade -y
+	apt install -y gcc bedtools cd-hit ncbi-blast+ mcl parallel cpanminus prank mafft fasttree make expat libexpat-dev
+
+%runscript
+	roary "$@"
+
+%labels 
+	author Ignacio Ferres
