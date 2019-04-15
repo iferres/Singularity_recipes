@@ -2,8 +2,9 @@ Bootstrap: docker
 From: ubuntu:18.04
 
 %post
-	apt-get update
-	apt-get install -y git python3 python3-pip efetch default-jdk
+	apt update && apt upgrade -y
+	apt install -y git python3 python3-pip efetch default-jdk
+	apt clean -y
 	pip3 install biopython networkx
 	git clone https://github.com/InfOmics/PanDelos
 	cd PanDelos
