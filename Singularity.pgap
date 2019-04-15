@@ -1,0 +1,28 @@
+Bootstrap: docker
+From: ubuntu:16.04
+
+
+%post
+	export DEBIAN_FRONTEND=noninteractive
+	apt update
+	apt install -y software-properties-common
+	add-apt-repository -y ppa:openjdk-r/ppa  
+	apt update && apt upgrade -y
+	apt install -y make gcc patch wget mafft mcl openjdk-7-jre-headless phylip libexpat-dev pkg-config libgd-dev build-essential libxml-libxml-perl
+	apt clean -y
+	export PERL_MM_USE_DEFAULT=1
+	cpan -i App::cpanminus
+	cpanm -i Statistics::LineFit
+	cpanm -i Statistics::Distributions
+	cpanm -i Bio::AlignIO # Falla acá en build pero no en shell (?)
+	wget https://downloads.sourceforge.net/project/pgap/PGAP-1.2.1/PGAP-1.2.1.tar.gz
+	tar -xzf PGAP-1.2.1.tar.gz 
+	rm -f PGAP-1.2.1.tar.gz
+	chmod a+x PGAP-1.2.1/*.pl
+
+%runscript 
+	/PGAP-1.2.1/PGAP.pl "$@"
+
+%labels 
+	author Ignacio Ferres
+
