@@ -5,9 +5,12 @@ From: ubuntu:16.04
 # Install dependencies from repos: GD for graphics, libidn11 for BLAST+
 %post
 	export DEBIAN_FRONTEND=noninteractive
-	apt update && apt install -y software-properties-common
+	apt update && apt upgrade -y
+	apt install -y software-properties-common
 	add-apt-repository ppa:anton+/photo-video-apps -y
-	apt-get update && apt-get install -y git htop curl make geeqie evince default-jre libgd-gd2-perl libidn11 libpython2.7 procps bc wget r-base r-base-dev
+	apt update && apt upgrade -y
+	apt install -y git htop curl make geeqie evince default-jre libgd-gd2-perl libidn11 libpython2.7 procps bc wget r-base r-base-dev
+	apt autoremove && apt clean -y
 	#curl -L http://cpanmin.us | perl - App::cpanminus
 	cpan -i App::cpanminus
 	export PERL_MM_USE_DEFAULT=1
