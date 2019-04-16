@@ -3,7 +3,7 @@ From: ubuntu:16.04
 
 %post 
 	apt update && apt upgrade -y
-	apt install -y wget bzip2 git
+	apt install -y wget bzip2
 	apt clean -y
 	#install conda 
 	wget https://repo.continuum.io/miniconda/Miniconda2-4.5.12-Linux-x86_64.sh -O /opt/miniconda.sh
@@ -11,18 +11,11 @@ From: ubuntu:16.04
 	export PATH="/opt/miniconda/bin:$PATH"
 	conda config --add channels bioconda
 	#install panx
-	git clone https://github.com/neherlab/pan-genome-analysis.git
-	cd pan-genome-analysis
-	git checkout 4684a0becb450cf7cc8fede9a02c2193bc41801e
-	conda install python=2.7.13 python-dateutil>=2.5.0 biopython numpy scipy pandas ete2 diamond fasttree mafft mcl raxml treetime
-	#conda env create -f panX-environment.yml
-	#~/miniconda2/bin/conda env create -f panX-environment.yml
-	#source activate panX
+	conda install --yes -c bioconda panx=1.6.0
+	conda clean --all --yes
 
 %runscript
-	#export PATH=/root/miniconda2/bin/:$PATH	
-	#. activate panX && /pan-genome-analysis/panX.py 
-	/pan-genome-analysis/panX.py "$@"
+	panX.py "$@"
 
 %environment
 	export PATH="/opt/miniconda/bin:$PATH"
