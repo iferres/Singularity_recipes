@@ -1,0 +1,26 @@
+Bootstrap: docker
+From: ubuntu:16.04
+
+%post 
+	apt update && apt upgrade -y
+	apt install -y wget bzip2
+	apt clean -y
+	#install conda 
+	wget https://repo.continuum.io/miniconda/Miniconda2-4.5.12-Linux-x86_64.sh -O /opt/miniconda.sh
+	bash /opt/miniconda.sh -b -p /opt/miniconda
+	export PATH="/opt/miniconda/bin:$PATH"
+	conda config --add channels conda-forge
+	conda config --add channels bioconda
+	conda install --yes -c sionbayliss pirate=prerelease
+	conda clean --all --yes
+
+%environment
+	export PATH="/opt/miniconda/bin:$PATH"
+
+
+%runscript
+	PIRATE "$@"
+
+%labels 
+	author Ignacio Ferres
+
