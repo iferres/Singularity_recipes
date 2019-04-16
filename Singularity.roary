@@ -16,6 +16,9 @@ From: ubuntu:16.04
 	conda install --yes roary=3.12.0
 	conda clean --all --yes
 
+%environment
+	export PATH="/opt/miniconda/bin:$PATH"
+
 %runscript
 	roary "$@"
 
